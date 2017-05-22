@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     // Para coger el nombre de la clase
     protected static String TAG = MainActivity.class.getCanonicalName();
 
@@ -21,15 +22,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Se crea una referencia al ImageView del offline image
+        final ImageView offlineImage = (ImageView) findViewById(R.id.offline_weather_image);
+
         // Función que se ejecuta cuando se pulsa sobre un botón.
         // Forma 2. Mediante el id del botón
         // Se busca el botón
         changeToStone = (Button) findViewById(R.id.change_stone_system);
         // Se indica que setiene que hacer cuando se pulsa ese botón
-        changeToStone.setOnClickListener(this);
 
+        // Forma 3. Con una clase por separado
+        //Esto es muy raro hacerlo, pero puede ayudar a entender qué son las clases anónimas en realidad
+        changeToStone.setOnClickListener(new StoneButtonListener(offlineImage));
         changeToDonkey = (Button) findViewById(R.id.change_donkey_system);
-        changeToDonkey.setOnClickListener(this);
+
+        // Forma 4. Mediante una clase anónima
+        // Es la forma más habitual. Se usa cuando en la llamada se hacen pocas cosas
+        changeToDonkey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(TAG, "Me han pedido burro");
+                offlineImage.setImageResource(R.drawable.offline_weather2);
+            }
+        });
+
+
 
         Log.v(TAG, "Hola Amundio, he pasado por onCreate");
     }
@@ -52,40 +69,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.v(TAG, "Nos han llamado a onSaveInstanceState");
         outState.putString("clave", "valor");
     }
+}
 
-    // Forma 2. Mediante el id del botón
-    // Función que se ejecuta cuando se pulsa sobre el botón y que se encuentra en la clase View.OnClickListener
+// Forma 3. Con una clase por separado
+// Es muy raro usar esta forma, solo se tendría que usar en el caso en que en la llamada se hagan muchas cosas
+class StoneButtonListener implements View.OnClickListener {
+
+    private final ImageView offlineImage;
+
+    public StoneButtonListener(ImageView offlineImage) {
+        this.offlineImage = offlineImage;
+    }
+
     @Override
     public void onClick(View v) {
-        // Forma 2.1. Mediante el id del botón
-        /*
-        if (v == changeToStone){
-            Log.v(TAG, "Me han pedido Pierda");
-        } else if (v == changeToDonkey) {
-            Log.v(TAG, "Me han pedido Burro");
-        } else {
-            Log.v(TAG, "No sé que me han pedido");
-        }
-        */
-        /*
-        if (v.getId() == R.id.change_stone_system){
-            Log.v(TAG, "Me han pedido Pierda");
-        } else if (v.getId() == R.id.change_donkey_system) {
-            Log.v(TAG, "Me han pedido Burro");
-        } else {
-            Log.v(TAG, "No sé qué me han pedido");
-        }
-        */
-        // Otra forma de hacerlo
-        switch (v.getId()) {
-            case R.id.change_stone_system:
-                Log.v(TAG, "Me han pedido Pierda");
-                break;
-            case R.id.change_donkey_system:
-                Log.v(TAG, "Me han pedido Burro");
-                break;
-            default:
-                Log.v(TAG, "No sé qué me han pedido");
-        }
+        Log.v("Lo que sea", "Me han pedido piedra");
+        offlineImage.setImageResource(R.drawable.offline_weather);
     }
 }
