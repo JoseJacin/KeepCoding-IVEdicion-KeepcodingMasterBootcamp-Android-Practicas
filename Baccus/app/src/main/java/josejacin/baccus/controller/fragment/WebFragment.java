@@ -1,13 +1,15 @@
-package josejacin.baccus.controller;
+package josejacin.baccus.controller.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -17,10 +19,9 @@ import android.widget.ProgressBar;
 import josejacin.baccus.R;
 import josejacin.baccus.model.Wine;
 
-public class WebActivity extends AppCompatActivity {
-
+public class WebFragment extends Fragment {
     // Propiedades
-    public static final String EXTRA_WINE = "josejacin.baccus.controller.WebActivity.extra_wine";
+    public static final String ARG_WINE = "josejacin.baccus.controller.fragment.WebFragment.extra_wine";
     private static final String STATE_URL = "url";
 
     //Modelo
@@ -31,19 +32,25 @@ public class WebActivity extends AppCompatActivity {
     private ProgressBar mLoading = null;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_web);
+        setHasOptionsMenu(true);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        View root = inflater.inflate(R.layout.fragment_web, container, false);
 
         // Se accede al modelo recibido desde el Indent
-        mWine = (Wine) getIntent().getSerializableExtra(EXTRA_WINE);
-
-        mWine.addGrape("Mencía");
+        mWine = (Wine) getArguments().getSerializable(ARG_WINE);
 
         // Se accede a las vistas desde el controlador (asocian)
-        mBrowser = (WebView) findViewById(R.id.browser);
-        mLoading = (ProgressBar) findViewById(R.id.loading);
+        mBrowser = (WebView) root.findViewById(R.id.browser);
+        mLoading = (ProgressBar) root.findViewById(R.id.loading);
 
         // Se configuran las vistas
         mBrowser.setWebViewClient(new WebViewClient() {
@@ -71,19 +78,30 @@ public class WebActivity extends AppCompatActivity {
         // Se indica que muestre los controles de zoom
         mBrowser.getSettings().setBuiltInZoomControls(true);
         // Se carga la página web
-        mBrowser.loadUrl(mWine.getCompanyWeb());
+        if (savedInstanceState == null || !savedInstanceState.containsKey(STATE_URL)) {
+            mBrowser.loadUrl(mWine.getCompanyWeb());
+        } else {
+            mBrowser.loadUrl(savedInstanceState.getString(STATE_URL));
+        }
+
+        return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(STATE_URL, mBrowser.getUrl());
     }
 
     // Método que crea las opciones de menú
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
 
-        // Se encarga de coger un XML y de sacar las opciones de menú que se encuentran en él
-        MenuInflater inflater = getMenuInflater();
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_web, menu);
 
-        return true;
     }
 
     // Método que se ejecuta cuando se ha seleccionado una opción de menú
