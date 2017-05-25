@@ -11,6 +11,8 @@ import android.widget.TextView;
 public class ForecastActivity extends AppCompatActivity {
     // Para coger el nombre de la clase
     protected static String TAG = ForecastActivity.class.getCanonicalName();
+    private static final int ID_OPCION_1 = 1;
+    private static final int ID_OPCION_2 = 2;
 
     // Función que se llama justo antes de crearse una Actividad
     @Override
@@ -48,8 +50,8 @@ public class ForecastActivity extends AppCompatActivity {
         // Identificación de opción (Item)
         // Orden de la opción (item)
         // Texto de la opción (item)
-        menu.add(0, 1, 0, "Opción de Menú 1");
-        menu.add(0, 2, 0, "Opción de Menú 2");
+        menu.add(0, ID_OPCION_1, 0, "Opción de Menú 1");
+        menu.add(0, ID_OPCION_2, 0, "Opción de Menú 2");
 
         return true;
     }
@@ -58,9 +60,9 @@ public class ForecastActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-        if (item.getItemId() == 1) {
+        if (item.getItemId() == ID_OPCION_1) {
             Log.v(TAG, "Se ha pulsado la opción 1");
-        } else if (item.getItemId() == 2) {
+        } else if (item.getItemId() == ID_OPCION_2) {
             Log.v(TAG, "Se ha pulsado la opción 2");
         }
 
