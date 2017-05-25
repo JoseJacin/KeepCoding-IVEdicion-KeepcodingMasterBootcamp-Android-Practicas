@@ -2,6 +2,9 @@ package josejacin.guedr;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,5 +37,34 @@ public class ForecastActivity extends AppCompatActivity {
         minTemp.setText(getString(R.string.min_temp_format, forecast.getMinTemp()));
         humidity.setText(getString(R.string.humidity_format, forecast.getHumidity()));
         forecastDescription.setText(forecast.getDescription());
+    }
+
+    // Método que indica que se tiene que crear un menú
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        // Identificador de grupo
+        // Identificación de opción (Item)
+        // Orden de la opción (item)
+        // Texto de la opción (item)
+        menu.add(0, 1, 0, "Opción de Menú 1");
+        menu.add(0, 2, 0, "Opción de Menú 2");
+
+        return true;
+    }
+
+    // Método que se ejecuta cuando se selecciona un item del menú
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == 1) {
+            Log.v(TAG, "Se ha pulsado la opción 1");
+        } else if (item.getItemId() == 2) {
+            Log.v(TAG, "Se ha pulsado la opción 2");
+        }
+
+
+        return true;
     }
 }
