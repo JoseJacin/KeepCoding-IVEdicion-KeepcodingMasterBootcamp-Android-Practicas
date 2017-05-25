@@ -46,12 +46,10 @@ public class ForecastActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        // Identificador de grupo
-        // Identificación de opción (Item)
-        // Orden de la opción (item)
-        // Texto de la opción (item)
-        menu.add(0, ID_OPCION_1, 0, "Opción de Menú 1");
-        menu.add(0, ID_OPCION_2, 0, "Opción de Menú 2");
+        // Los inflater inflan ficheros xml de cualquier tipo, pero cada inflater "infla" un tipo de xml
+        // Menu recogido de un xml
+        // Lugar en el que se debe colgar el menú representado en el xml
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
 
         return true;
     }
@@ -59,14 +57,13 @@ public class ForecastActivity extends AppCompatActivity {
     // Método que se ejecuta cuando se selecciona un item del menú
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        if (item.getItemId() == ID_OPCION_1) {
-            Log.v(TAG, "Se ha pulsado la opción 1");
-        } else if (item.getItemId() == ID_OPCION_2) {
-            Log.v(TAG, "Se ha pulsado la opción 2");
+        boolean superReturn = super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_show_settings) {
+            Log.v(TAG, "Se ha pulsado la opción de ajustes");
+            return true;
         }
 
-
-        return true;
+        // Si ninguna de las opciones pulsadas es la que se quiere, se retorna exactamente lo que se ha recibido
+        return superReturn;
     }
 }
