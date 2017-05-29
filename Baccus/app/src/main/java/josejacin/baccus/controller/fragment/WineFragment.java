@@ -22,7 +22,7 @@ import josejacin.baccus.controller.activity.WebActivity;
 import josejacin.baccus.model.Wine;
 
 public class WineFragment extends Fragment {
-    public static final String ARG_WINE = "josejacin.baccus.controller.fragment.WineFragment.ARG_WINE";
+    public static final String ARG_WINE = "josejacin.baccus.controller.fragment.WineActivity.ARG_WINE";
 
     //Obtener el nombre de la clase
     private static final String TAG = WineFragment.class.getCanonicalName();
@@ -52,7 +52,7 @@ public class WineFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View root = inflater.inflate(R.layout.fragment_wine, container, false);
@@ -112,7 +112,7 @@ public class WineFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.menu_main, menu);
 
     }
 

@@ -17,14 +17,14 @@ import josejacin.baccus.controller.activity.SettingsActivity;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
     // Propiedades
-    public static final String ARG_WINE_IMAGE_SCALE_TYPE = "josejacin.baccus.controller.fragment.SettingsFragment.ARG_WINE_IMAGE_SCALE_TYPE";
+    public static final String ARG_WINE_IMAGE_SCALE_TYPE = "josejacin.baccus.controller.fragment.SettingsActivity.ARG_WINE_IMAGE_SCALE_TYPE";
 
     // Vistas
     private RadioGroup mRadioGroup = null;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View root = inflater.inflate(R.layout.fragment_settings, container, false);

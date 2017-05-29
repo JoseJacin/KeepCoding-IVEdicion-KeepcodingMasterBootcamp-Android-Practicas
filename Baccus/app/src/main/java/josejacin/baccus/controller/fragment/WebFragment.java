@@ -21,7 +21,7 @@ import josejacin.baccus.model.Wine;
 
 public class WebFragment extends Fragment {
     // Propiedades
-    public static final String ARG_WINE = "josejacin.baccus.controller.fragment.WebFragment.extra_wine";
+    public static final String ARG_WINE = "josejacin.baccus.controller.fragment.WebFragment.ARG_WINE";
     private static final String STATE_URL = "url";
 
     //Modelo
@@ -40,7 +40,7 @@ public class WebFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View root = inflater.inflate(R.layout.fragment_web, container, false);
