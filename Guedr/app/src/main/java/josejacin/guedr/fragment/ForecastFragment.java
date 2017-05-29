@@ -1,4 +1,4 @@
-package josejacin.guedr;
+package josejacin.guedr.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -16,6 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import josejacin.guedr.model.Forecast;
+import josejacin.guedr.R;
+import josejacin.guedr.activity.SettingsActivity;
 
 public class ForecastFragment extends Fragment {
     // Para coger el nombre de la clase

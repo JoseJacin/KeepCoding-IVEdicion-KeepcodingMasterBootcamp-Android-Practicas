@@ -1,4 +1,4 @@
-package josejacin.guedr;
+package josejacin.guedr.model;
 
 public class Forecast {
     // Properties

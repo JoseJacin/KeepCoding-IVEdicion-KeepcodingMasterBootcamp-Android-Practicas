@@ -1,7 +1,9 @@
-package josejacin.guedr;
+package josejacin.guedr.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import josejacin.guedr.R;
 
 public class ForecastActivity extends AppCompatActivity {
 

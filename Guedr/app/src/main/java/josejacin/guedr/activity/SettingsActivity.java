@@ -1,4 +1,4 @@
-package josejacin.guedr;
+package josejacin.guedr.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioGroup;
+
+import josejacin.guedr.R;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String EXTRA_UNITS = "units";
