@@ -12,4 +12,5 @@
     <string name="select_units">Seleccionar las unidades</string>
     <string name="settings">Ajustes</string>
     <string name="undo">Deshacer</string>
+    <string name="title_activity_city_pager">CityPagerActivity</string>
 </resources>

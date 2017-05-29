@@ -1,6 +1,9 @@
 package josejacin.guedr.model;
 
-public class Forecast {
+import java.io.Serializable;
+
+// Una clase es serializable cuando todos sus atributos de instancia son serializables
+public class Forecast implements Serializable {
     // Properties
     public final static int CELSIUS = 0;
     public final static int FARENHEIT = 1;

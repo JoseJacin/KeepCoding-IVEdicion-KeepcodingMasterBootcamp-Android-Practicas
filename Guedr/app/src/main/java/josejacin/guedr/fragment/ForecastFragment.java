@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import josejacin.guedr.model.City;
 import josejacin.guedr.model.Forecast;
 import josejacin.guedr.R;
 import josejacin.guedr.activity.SettingsActivity;
@@ -27,8 +28,20 @@ public class ForecastFragment extends Fragment {
     private static final int REQUEST_UNITS = 1;
     protected boolean mShowCelsius = true;
     public static final String PREFERENCE_SHOW_CELSIUS = "showCelsius";
-    private Forecast mForecast;
+    private static final String ARG_CITY = "city";
+    private City mCity;
     private View mRoot;
+
+    //
+    public static ForecastFragment newInstance(City city) {
+        ForecastFragment fragment = new ForecastFragment();
+
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(ARG_CITY, city);
+        fragment.setArguments(arguments);
+
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +49,10 @@ public class ForecastFragment extends Fragment {
 
         // Se indica que el fragment tiene opciones de menú
         setHasOptionsMenu(true);
+
+        if (getArguments() != null) {
+            mCity = (City) getArguments().getSerializable(ARG_CITY);
+        }
     }
 
     @Nullable
@@ -49,9 +66,6 @@ public class ForecastFragment extends Fragment {
         // Se utiliza un Inflater para inflar la Actividad y poder sacar la vista deseada
         mRoot = inflater.inflate(R.layout.fragment_forecast, container, false);
 
-        // Se crea un modelo
-        mForecast = new Forecast(25, 10, 35, "Soleado con alguna nube", R.drawable.ico_01);
-
         // Se recupera el valor que se ha guardado en disco para mShowCelsius
         mShowCelsius = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(PREFERENCE_SHOW_CELSIUS, true);
 
@@ -62,32 +76,39 @@ public class ForecastFragment extends Fragment {
 
     private void updateForecast() {
         // Se acceden las vistas de la interfaz para poder ir dándole valor
+        TextView cityName = (TextView) mRoot.findViewById(R.id.city);
         ImageView forecastImage = (ImageView) mRoot.findViewById(R.id.forecast_image);
         TextView maxTempText = (TextView) mRoot.findViewById(R.id.max_temp);
         TextView minTempText = (TextView) mRoot.findViewById(R.id.min_temp);
         TextView humidityText = (TextView) mRoot.findViewById(R.id.humidity);
         TextView forecastDescriptionText = (TextView) mRoot.findViewById(R.id.forecast_description);
 
+        // Se establece el nombre de la ciudad
+        cityName.setText(mCity.getName());
+
+        // Se accede al modelo de Forecast
+        Forecast forecast = mCity.getForecast();
+
         // Se caculan las temperaturas en función de las unidades
         float maxTemp = 0; // Por defecto está en celsius
         float minTemp = 0;
         String unitsToShow = null;
         if (mShowCelsius) {
-            maxTemp = mForecast.getMaxTemp(Forecast.CELSIUS);
-            minTemp = mForecast.getMinTemp(Forecast.CELSIUS);
+            maxTemp = forecast.getMaxTemp(Forecast.CELSIUS);
+            minTemp = forecast.getMinTemp(Forecast.CELSIUS);
             unitsToShow = "ºC";
         } else {
-            maxTemp = mForecast.getMaxTemp(Forecast.FARENHEIT);
-            minTemp = mForecast.getMinTemp(Forecast.FARENHEIT);
+            maxTemp = forecast.getMaxTemp(Forecast.FARENHEIT);
+            minTemp = forecast.getMinTemp(Forecast.FARENHEIT);
             unitsToShow = "F";
         }
 
         // Se actualiza la vista con el modelo
-        forecastImage.setImageResource(mForecast.getIcon());
+        forecastImage.setImageResource(forecast.getIcon());
         maxTempText.setText(getString(R.string.max_temp_format, maxTemp, unitsToShow));
         minTempText.setText(getString(R.string.min_temp_format, minTemp, unitsToShow));
-        humidityText.setText(getString(R.string.humidity_format, mForecast.getHumidity()));
-        forecastDescriptionText.setText(mForecast.getDescription());
+        humidityText.setText(getString(R.string.humidity_format, forecast.getHumidity()));
+        forecastDescriptionText.setText(forecast.getDescription());
     }
 
     // Método que indica que se tiene que crear un menú
