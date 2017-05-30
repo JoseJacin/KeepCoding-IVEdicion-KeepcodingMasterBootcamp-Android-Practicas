@@ -6,7 +6,7 @@ import java.util.List;
 import josejacin.guedr.R;
 
 public class Cities {
-    private List<City> mCities;
+    private LinkedList<City> mCities;
 
     public Cities() {
         mCities = new LinkedList<>();
@@ -18,6 +18,10 @@ public class Cities {
     // Método que retorna la ciudad indicada por index
     public City getCity(int index) {
         return mCities.get(index);
+    }
+
+    public LinkedList<City> getCities() {
+        return mCities;
     }
 
     // Método que retorna el número de ciudades que hay
