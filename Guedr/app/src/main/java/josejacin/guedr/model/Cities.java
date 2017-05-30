@@ -6,7 +6,18 @@ import java.util.List;
 import josejacin.guedr.R;
 
 public class Cities {
+    private static Cities mInstance;
+
     private LinkedList<City> mCities;
+
+    public static Cities getmInstance() {
+        if (mInstance == null) {
+            // No existe aún una instancia estática de la clase, la creo
+            mInstance = new Cities();
+        }
+
+        return  mInstance;
+    }
 
     public Cities() {
         mCities = new LinkedList<>();
