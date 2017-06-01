@@ -28,8 +28,10 @@ public class CityPagerActivity extends AppCompatActivity {
 
         // Se indica a la actividd que se use la toolbar personalizada
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setLogo(R.mipmap.ic_launcher);
+        // Se indica el logo que tienen que tener
+        //toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Recibimos el índice de la ciudad que se quiere mostrar
         int cityIndex = getIntent().getIntExtra(EXTRA_CITY_INDEX, 0);
@@ -43,6 +45,7 @@ public class CityPagerActivity extends AppCompatActivity {
                     .add(R.id.view_pager_fragment, fragment)
                     .commit();
         }
+
 
 /*
         mPager = (ViewPager) findViewById(R.id.view_pager);
@@ -142,6 +145,19 @@ public class CityPagerActivity extends AppCompatActivity {
         */
 
         //return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean superValue =  super.onOptionsItemSelected(item);
+
+        if (item.getItemId() == android.R.id.home) {
+            // Han pulsado la flecha de back de la ActionBar, por lo que se vuelve
+            finish();
+            return true;
+        }
+
+        return superValue;
     }
 }
 
