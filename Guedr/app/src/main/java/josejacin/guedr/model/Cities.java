@@ -21,9 +21,9 @@ public class Cities {
 
     public Cities() {
         mCities = new LinkedList<>();
-        mCities.add(new City("Madrid", new Forecast(25, 10, 35, "Soleado con alguna nube", R.drawable.ico_02)));
-        mCities.add(new City("Jaen", new Forecast(36, 25, 35, "Sol a tope", R.drawable.ico_01)));
-        mCities.add(new City("Quito", new Forecast(30, 15, 40, "Arcoriris", R.drawable.ico_10)));
+        mCities.add(new City("Madrid"));
+        mCities.add(new City("Jaen"));
+        mCities.add(new City("Quito"));
     }
 
     // Método que retorna la ciudad indicada por index
