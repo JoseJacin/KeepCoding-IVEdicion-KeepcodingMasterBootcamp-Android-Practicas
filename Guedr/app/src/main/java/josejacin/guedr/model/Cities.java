@@ -10,7 +10,7 @@ public class Cities {
 
     private LinkedList<City> mCities;
 
-    public static Cities getmInstance() {
+    public static Cities getInstance() {
         if (mInstance == null) {
             // No existe aún una instancia estática de la clase, la creo
             mInstance = new Cities();

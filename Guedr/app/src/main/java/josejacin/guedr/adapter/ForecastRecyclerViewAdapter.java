@@ -56,7 +56,6 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
     // Clase que tiene referencias a cada uno de los datos de cada una de las vistas de cada fila
     protected class ForecastViewHolder extends RecyclerView.ViewHolder {
 
-        private View mRoot = null;
         private final ImageView mForecastImage;
         private final TextView mMaxTempText;
         private final TextView mMinTempText;

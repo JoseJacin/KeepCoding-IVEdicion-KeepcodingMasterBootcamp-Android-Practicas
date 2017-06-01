@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,17 +42,21 @@ import josejacin.guedr.R;
 import josejacin.guedr.activity.SettingsActivity;
 
 public class ForecastFragment extends Fragment {
+    public static final String PREFERENCE_SHOW_CELSIUS = "showCelsius";
+
     // Para coger el nombre de la clase
     protected static String TAG = ForecastFragment.class.getCanonicalName();
-    private static final int REQUEST_UNITS = 1;
-    protected boolean mShowCelsius = true;
-    public static final String PREFERENCE_SHOW_CELSIUS = "showCelsius";
+
     private static final String ARG_CITY = "city";
+    private static final int REQUEST_UNITS = 1;
+    private static final int LOADING_VIEW_INDEX = 0;
+    private static final int FORECAST_VIEW_INDEX = 1;
+
+    protected boolean mShowCelsius = true;
+
     private City mCity;
     private View mRoot;
     private RecyclerView mList;
-    private static final int LOADING_VIEW_INDEX = 0;
-    private static final int FORECAST_VIEW_INDEX = 1;
 
     //
     public static ForecastFragment newInstance(City city) {
@@ -72,6 +77,7 @@ public class ForecastFragment extends Fragment {
         setHasOptionsMenu(true);
 
         if (getArguments() != null) {
+            // Se recupera el modelo pasado como argumento
             mCity = (City) getArguments().getSerializable(ARG_CITY);
         }
     }
@@ -181,7 +187,7 @@ public class ForecastFragment extends Fragment {
                         viewSwitcher.setDisplayedChild(FORECAST_VIEW_INDEX);
                     } else {
                         // Ha ocurrido algún error al descargar la información del tiempo, por lo que se muestra un AlertDialog
-                        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                         // Se establece el texto del AlertDialog
                         alertDialog.setTitle(R.string.error);
                         // Se establece el mensaje del AlertDialog
@@ -226,7 +232,16 @@ public class ForecastFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra(DetailActivity.EXTRA_FORECAST, forecastDetail);
                 intent.putExtra(DetailActivity.EXTRA_SHOW_CELSIUS, mShowCelsius);
-                startActivity(intent);
+                // Se crea una animación al mostrar la actividad de detalle
+                Bundle animationOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        // Contexto
+                        getActivity(),
+                        // Vista común
+                        v,
+                        // Nombre del transitionName que buscará en el destino
+                        getString(R.string.transition_to_detail)
+                ).toBundle();
+                startActivity(intent, animationOptions);
             }
         });
 
@@ -359,6 +374,8 @@ public class ForecastFragment extends Fragment {
     // Método que se ejecuta cuando se vuelve de otra Actividad que se haya lanzado desde startActivityForResult
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_UNITS) {
             // Se está volviendo de la pantalla de SettingsActivity
             // Se comprueba cómo ha ido el resultado
@@ -372,10 +389,10 @@ public class ForecastFragment extends Fragment {
                 // La opción por defecto aquí es absurda, pero se tienen que informar
                 int optionSelected = data.getIntExtra(SettingsActivity.EXTRA_UNITS, R.id.farenheit_rb);
                 if (optionSelected == R.id.farenheit_rb) {
-                    snackBarText = "Se ha seleccionado Farenheit";
+                    snackBarText = getString(R.string.farenheit_selected);
                     mShowCelsius = false;
                 } else {
-                    snackBarText = "Se ha seleccionado Celsius";
+                    snackBarText = getString(R.string.celsius_selected);
                     mShowCelsius = true;
                 }
 

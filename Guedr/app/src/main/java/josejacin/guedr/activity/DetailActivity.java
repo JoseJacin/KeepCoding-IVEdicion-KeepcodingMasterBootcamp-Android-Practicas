@@ -51,13 +51,13 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         // Se accede al contexto
-        Context context = mForecastImage.getContext();
+        //Context context = mForecastImage.getContext();
 
         // Se actualiza la vista con el modelo
         mForecastImage.setImageResource(forecast.getIcon());
-        mMaxTempText.setText(context.getString(R.string.max_temp_format, maxTemp, unitsToShow));
-        mMinTempText.setText(context.getString(R.string.min_temp_format, minTemp, unitsToShow));
-        mHumidityText.setText(context.getString(R.string.humidity_format, forecast.getHumidity()));
+        mMaxTempText.setText(getString(R.string.max_temp_format, maxTemp, unitsToShow));
+        mMinTempText.setText(getString(R.string.min_temp_format, minTemp, unitsToShow));
+        mHumidityText.setText(getString(R.string.humidity_format, forecast.getHumidity()));
         mForecastDescriptionText.setText(forecast.getDescription());
     }
 }

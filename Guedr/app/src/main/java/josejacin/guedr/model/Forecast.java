@@ -44,7 +44,7 @@ public class Forecast implements Serializable {
         if (units == CELSIUS) {
             return mMinTemp;
         } else {
-            return  toFarenheit(mMinTemp);
+            return toFarenheit(mMinTemp);
         }
     }
 

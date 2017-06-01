@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,6 @@ public class CityListFragment extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_city_list, container, false);
 
         // Se obtiene la lista de ciudades
-
         // Se accede a la vista
         ListView list = (ListView) root.findViewById(R.id.city_list);
 
@@ -75,6 +76,15 @@ public class CityListFragment extends Fragment {
                     // Se avisa al listener
                     mOnCitySelectedListener.onCitySelected(selectedCity, position);
                 }
+            }
+        });
+
+        // Hacemos algo con el floating action button
+        FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.add_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getView(), "Aquí iría el añadir una ciudad", Snackbar.LENGTH_LONG).show();
             }
         });
 

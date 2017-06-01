@@ -10,15 +10,16 @@
         android:id="@+id/select_units_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/select_units"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        app:layout_constraintDimensionRatio=""
         app:layout_constraintHorizontal_bias="0.0"/>
 
     <RadioGroup
@@ -64,8 +65,8 @@
         android:layout_height="wrap_content"
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="@+id/accept_btn"
-        app:layout_constraintRight_toLeftOf="@+id/accept_btn"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/accept_btn"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="4dp"/>

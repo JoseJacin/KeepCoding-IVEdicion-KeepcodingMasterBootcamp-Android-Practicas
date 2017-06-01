@@ -19,4 +19,7 @@
     <string name="retry">Reintentar</string>
     <string name="error">Error</string>
     <string name="couldnt_download_weather">No se pudo descargar la información del tiempo (por lo que sea)</string>
+    <string name="transition_to_detail">transitionToDetail</string>
+    <string name="farenheit_selected">Se ha seleccionado Farenheit</string>
+    <string name="celsius_selected">Se ha seleccionado Celsius</string>
 </resources>
