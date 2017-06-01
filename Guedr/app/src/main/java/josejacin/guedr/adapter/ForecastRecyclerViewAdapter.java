@@ -17,6 +17,7 @@ import josejacin.guedr.model.Forecast;
 public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRecyclerViewAdapter.ForecastViewHolder> {
     private LinkedList<Forecast> mForecast;
     private boolean mShowCelsius;
+    private View.OnClickListener mOnClickListener;
 
     // Constructor
     public ForecastRecyclerViewAdapter(LinkedList<Forecast> forecast, boolean showCelsius) {
@@ -25,11 +26,18 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
         mShowCelsius = showCelsius;
     }
 
+    // Método que se ejecuta cuando se pulsa sobre una Google Card View
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
     // Método que se ejecuta cuando se va a crear la vista. Es el que crea la vista
     @Override
     public ForecastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Se le indica el lugar en el que va a estar enganchda la fila
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_forecast, parent, false);
+        view.setOnClickListener(mOnClickListener);
+
         return new ForecastViewHolder(view);
     }
 

@@ -152,7 +152,7 @@ public class CityPagerActivity extends AppCompatActivity {
         boolean superValue =  super.onOptionsItemSelected(item);
 
         if (item.getItemId() == android.R.id.home) {
-            // Han pulsado la flecha de back de la ActionBar, por lo que se vuelve
+            // Han pulsado la flecha de back de la ActionBar, por lo que se vuelve a la actividad anterior
             finish();
             return true;
         }

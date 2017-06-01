@@ -33,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 
+import josejacin.guedr.activity.DetailActivity;
 import josejacin.guedr.adapter.ForecastRecyclerViewAdapter;
 import josejacin.guedr.model.City;
 import josejacin.guedr.model.Forecast;
@@ -111,7 +112,7 @@ public class ForecastFragment extends Fragment {
         //cityName.setText(mCity.getName());
 
         // Se accede al modelo de Forecast
-        LinkedList<Forecast> forecast = mCity.getForecast();
+        final LinkedList<Forecast> forecast = mCity.getForecast();
 
         // Se accede al ViewSwitcher
         final ViewSwitcher viewSwitcher = (ViewSwitcher) mRoot.findViewById(R.id.view_switcher);
@@ -213,6 +214,22 @@ public class ForecastFragment extends Fragment {
 
         // Se asigna un adapter al recyclerView
         ForecastRecyclerViewAdapter adapter = new ForecastRecyclerViewAdapter(forecast, mShowCelsius);
+
+        // Se suscribe a las pulsaciones de las tarjetas del RecyclerView
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Se obtiene la posicición de la tarjeta pulsada
+                int position = mList.getChildAdapterPosition(v);
+                Forecast forecastDetail = forecast.get(position);
+                // Se lanza la actividad de detalle. Esto sería mejor lanzarlo desde la actividad
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(DetailActivity.EXTRA_FORECAST, forecastDetail);
+                intent.putExtra(DetailActivity.EXTRA_SHOW_CELSIUS, mShowCelsius);
+                startActivity(intent);
+            }
+        });
+
         mList.setAdapter(adapter);
     }
 
