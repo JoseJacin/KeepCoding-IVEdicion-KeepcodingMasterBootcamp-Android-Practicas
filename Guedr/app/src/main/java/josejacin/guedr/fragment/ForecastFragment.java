@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,6 +40,8 @@ public class ForecastFragment extends Fragment {
     private static final String ARG_CITY = "city";
     private City mCity;
     private View mRoot;
+    private static final int LOADING_VIEW_INDEX = 0;
+    private static final int FORECAST_VIEW_INDEX = 1;
 
     //
     public static ForecastFragment newInstance(City city) {
@@ -97,16 +100,54 @@ public class ForecastFragment extends Fragment {
         // Se accede al modelo de Forecast
         Forecast forecast = mCity.getForecast();
 
+        // Se accede al ViewSwitcher
+        final ViewSwitcher viewSwitcher = (ViewSwitcher) mRoot.findViewById(R.id.view_switcher);
+        // Se establece una animación cuando entra una vista
+        // Se le pasa
+        // Se le pasa la ubicación de las animaciones
+        viewSwitcher.setInAnimation(getActivity(), android.R.anim.fade_in); // De transparente a opaco
+        // Se establece una animación cuando sale una vista
+        viewSwitcher.setOutAnimation(getActivity(), android.R.anim.fade_out); // De transparente a opaco
+
+
         if (forecast == null) {
             // Ejecutar código en segundo plano
             // Primer parámetro: Parámetro de entrada
             // Segundo parámetro: Progreso de la descarga
             // Tercer parámetro: Parámetro de salida
             AsyncTask<City, Integer, Forecast> weatherDownloader = new AsyncTask<City, Integer, Forecast>() {
+                // Método que se ejecuta antes de comenzar la operación en segundo plano (método doInBackgroud)
+                // Esto se ejecuta en el hilo principal
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+
+                    // Se indica a ViewSwitcher cuál es la primera interfaz (ProgressBar)
+                    viewSwitcher.setDisplayedChild(LOADING_VIEW_INDEX);
+                }
+
                 // Método que se ejecuta en segundo plano. En un hilo que no es el principal
                 @Override
                 protected Forecast doInBackground(City... params) {
+                    // Con esto se establece el grado de progreso
+                    publishProgress(50);
                     return downloadForecast(params[0]);
+                }
+
+                // Método que se cuando se va a actualizar el progreso de la descarga
+                // Esto se ejecuta en el hilo principal
+                @Override
+                protected void onProgressUpdate(Integer... values) {
+                    super.onProgressUpdate(values);
+                }
+
+                // Método que se ejecuta si se cancela la petición en segundo plano
+                // Esto se ejecuta en el hilo principal
+                @Override
+                protected void onCancelled(Forecast forecast) {
+                    super.onCancelled(forecast);
+                    // Se indica a ViewSwitcher cuál es la segunda interfaz (Forecast)
+                    viewSwitcher.setDisplayedChild(FORECAST_VIEW_INDEX);
                 }
 
                 // Método que se ejecuta cuando la descarga en segundo plano ha finalizado (método doInBackgroud)
@@ -121,10 +162,15 @@ public class ForecastFragment extends Fragment {
                         mCity.setForecast(forecast);
 
                         updateForecast();
+
+                        // Se indica a ViewSwitcher cuál es la segunda interfaz (Forecast)
+                        viewSwitcher.setDisplayedChild(FORECAST_VIEW_INDEX);
                     }
                 }
             };
 
+            // Se ejecuta el proceso de lanzar un proceso en segundo plano
+            // NOTA: MUY IMPORTANTE NO OLVIDARSE DE ESTO, SI NO SE PONE, NO SE EJECUTARÁ NADA DEL MÉTODO ASYNCTASK
             weatherDownloader.execute(mCity);
             return;
         }
@@ -193,6 +239,8 @@ public class ForecastFragment extends Fragment {
                 case 13: iconResource = R.drawable.ico_13; break;
                 case 50: iconResource = R.drawable.ico_50; break;
             }
+
+            Thread.sleep(5000);
 
             return new Forecast(max, min, humidity, description, iconResource);
 
