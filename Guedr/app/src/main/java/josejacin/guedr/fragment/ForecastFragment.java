@@ -1,7 +1,9 @@
 package josejacin.guedr.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -103,7 +105,7 @@ public class ForecastFragment extends Fragment {
         // Se accede al ViewSwitcher
         final ViewSwitcher viewSwitcher = (ViewSwitcher) mRoot.findViewById(R.id.view_switcher);
         // Se establece una animación cuando entra una vista
-        // Se le pasa
+        // Se le pasa el contexto
         // Se le pasa la ubicación de las animaciones
         viewSwitcher.setInAnimation(getActivity(), android.R.anim.fade_in); // De transparente a opaco
         // Se establece una animación cuando sale una vista
@@ -130,7 +132,7 @@ public class ForecastFragment extends Fragment {
                 @Override
                 protected Forecast doInBackground(City... params) {
                     // Con esto se establece el grado de progreso
-                    publishProgress(50);
+                    //publishProgress(50);
                     return downloadForecast(params[0]);
                 }
 
@@ -165,6 +167,25 @@ public class ForecastFragment extends Fragment {
 
                         // Se indica a ViewSwitcher cuál es la segunda interfaz (Forecast)
                         viewSwitcher.setDisplayedChild(FORECAST_VIEW_INDEX);
+                    } else {
+                        // Ha ocurrido algún error al descargar la información del tiempo, por lo que se muestra un AlertDialog
+                        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                        // Se establece el texto del AlertDialog
+                        alertDialog.setTitle(R.string.error);
+                        // Se establece el mensaje del AlertDialog
+                        alertDialog.setMessage(R.string.couldnt_download_weather);
+                        // Se establecen las acciones (botones)
+                        // Botón de aceptar
+                        alertDialog.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Se vuelve a llamar a updateForecast para reintentar la descarga
+                                updateForecast();
+                            }
+                        });
+
+                        // Se muestra el AlertDialog
+                        alertDialog.show();
                     }
                 }
             };
@@ -172,6 +193,10 @@ public class ForecastFragment extends Fragment {
             // Se ejecuta el proceso de lanzar un proceso en segundo plano
             // NOTA: MUY IMPORTANTE NO OLVIDARSE DE ESTO, SI NO SE PONE, NO SE EJECUTARÁ NADA DEL MÉTODO ASYNCTASK
             weatherDownloader.execute(mCity);
+
+            // Cancela el proceso en segundo plano
+            //weatherDownloader.cancel();
+
             return;
         }
 
