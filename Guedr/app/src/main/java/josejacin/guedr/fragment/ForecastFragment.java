@@ -182,9 +182,6 @@ public class ForecastFragment extends Fragment {
                         mCity.setForecast(forecast);
 
                         updateForecast();
-
-                        // Se indica a ViewSwitcher cuál es la segunda interfaz (Forecast)
-                        viewSwitcher.setDisplayedChild(FORECAST_VIEW_INDEX);
                     } else {
                         // Ha ocurrido algún error al descargar la información del tiempo, por lo que se muestra un AlertDialog
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
@@ -217,6 +214,9 @@ public class ForecastFragment extends Fragment {
 
             return;
         }
+
+        // Se indica a ViewSwitcher cuál es la segunda interfaz (Forecast)
+        viewSwitcher.setDisplayedChild(FORECAST_VIEW_INDEX);
 
         // Se asigna un adapter al recyclerView
         ForecastRecyclerViewAdapter adapter = new ForecastRecyclerViewAdapter(forecast, mShowCelsius);
